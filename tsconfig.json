@@ -3,6 +3,9 @@
   "include": ["**/*.ts", "**/*.vue"],
   "exclude": ["node_modules"],
   "compilerOptions": {
+    "preserveValueImports": false,
+    "importsNotUsedAsValues": "remove",
+    "verbatimModuleSyntax": true,
     "lib": ["ES2022", "DOM"],
     "baseUrl": ".",
     "allowJs": true,
