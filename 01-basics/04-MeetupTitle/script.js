@@ -26,7 +26,7 @@ createApp({
   },
   watch: {
     id(newId, oldId) {
-      this.fetchMeetupById(this.id);
+      this.fetchMeetupById(newId);
     },
   },
 }).mount('#app');
