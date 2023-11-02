@@ -1,24 +1,53 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <title>MeetupTitle</title>
-  </head>
-  <body>
-    <div id="app">
-      <div>
-        <label><input type="radio" name="meetupId" value="1" /> 1</label>
-        <label><input type="radio" name="meetupId" value="2" /> 2</label>
-        <label><input type="radio" name="meetupId" value="3" /> 3</label>
-        <label><input type="radio" name="meetupId" value="4" /> 4</label>
-        <label><input type="radio" name="meetupId" value="5" /> 5</label>
 
-        <hr />
+<head>
+	<meta charset="UTF-8" />
+	<title>MeetupTitle</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<style>
+		.form-check,
+		.form-check input {
+			cursor: pointer;
+		}
 
-        <h3>MEETUP_TITLE</h3>
-      </div>
-    </div>
+		[v-cloak] {
+			display: none;
+		}
+	</style>
+</head>
 
-    <script type="module" src="./script.js"></script>
-  </body>
+<body>
+	<div id="app">
+		<div class="pt-5 pb-5 container">
+			<div>
+				<label class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="inlineRadioOptions" id="meetupId" v-model="id"
+						value="1"> 1
+				</label>
+				<label class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="inlineRadioOptions" id="meetupId" v-model="id"
+						value="2"> 2
+				</label>
+				<label class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="inlineRadioOptions" id="meetupId" v-model="id"
+						value="3"> 3
+				</label>
+				<label class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="inlineRadioOptions" id="meetupId" v-model="id"
+						value="4"> 4
+				</label>
+				<label class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="inlineRadioOptions" id="meetupId" v-model="id"
+						value="5"> 5
+				</label>
+				<hr />
+				<h3 v-cloak>MEETUP_TITLE: {{ meetupTitle }}</h3>
+			</div>
+		</div>
+
+		<script type="module" src="./script.js"></script>
+</body>
+
 </html>
