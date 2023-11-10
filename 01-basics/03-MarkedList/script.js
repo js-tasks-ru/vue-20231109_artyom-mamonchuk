@@ -62,3 +62,48 @@ createApp({
     },
   },
 }).mount('#app');
+
+/*
+===========================================
+	VARIANT 2
+==========================================
+*/
+createApp({
+  data() {
+    return {
+      email: '',
+      emails: [],
+    };
+  },
+  mounted() {
+    this.getEmails();
+  },
+  computed: {
+    isMarked() {
+      return { marked: this.filtered.length < this.emails.length ? true : false };
+    },
+    filtered() {
+      return this.emails.filter((email) => {
+        return email.toLowerCase().trim().includes(this.email.toLowerCase().trim());
+      });
+    },
+  },
+  methods: {
+    getEmails() {
+      fetch('https://jsonplaceholder.typicode.com/comments?_limit=10')
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          data.forEach((comment) => {
+            if (comment?.email) {
+              this.emails.push(comment?.email);
+            }
+          });
+        })
+        .catch((error) => {
+          console.error(error?.message);
+        });
+    },
+  },
+}).mount('#app2');

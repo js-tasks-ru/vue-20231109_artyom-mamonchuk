@@ -8,7 +8,8 @@
 		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 	<title>MarkedList</title>
 	<style>
-		.emails-list li span {
+		.emails-list li span,
+		.emails-list li.marked {
 			color: #efc14e;
 		}
 
@@ -27,6 +28,22 @@
 			</div>
 			<ul class="list-group emails-list" v-show="visible">
 				<li class="list-group-item" v-for="(userEmail, index) in filtered" :key="index" v-html="func(userEmail)">
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- VARIANT 2 -->
+	<div id="app2" v-cloak>
+		<div class="pt-3 pb-3 container">
+			<h2>Variant 2</h2>
+			<div class="mb-3">
+				<label for="email" class="form-label">Email</label>
+				<input type="email" class="form-control" v-model="email">
+			</div>
+			<ul class="list-group emails-list">
+				<li class="list-group-item" v-for="(userEmail, index) in filtered" :key="index" :class="isMarked">
+					{{ userEmail }}
 				</li>
 			</ul>
 		</div>
