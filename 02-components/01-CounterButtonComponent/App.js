@@ -10,21 +10,22 @@ export default defineComponent({
 
   data() {
     return {
-      count: undefined,
+      title: 'Компонент CounterButton',
+      count: 0,
     };
   },
-
   template: `
-    <div class="sample container">
+    <div class="sample container pt-3 pb-3">
+  		<h1>{{ title }}</h1>
       <p>count = {{ count }}</p>
       <p>
-        <CounterButton :count="count" @update:count="count = $event" />
+        <counter-button v-model:count="count"></counter-button>
       </p>
       <p>
-        <CounterButton v-model:count="count" />
+       <counter-button v-model:count="count"></counter-button>
       </p>
       <p>
-        <CounterButton v-model:count="count" />
+       <counter-button v-model:count="count"></counter-button>
       </p>
     </div>
   `,
