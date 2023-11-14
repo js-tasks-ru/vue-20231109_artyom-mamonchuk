@@ -6,6 +6,10 @@
   line-height: 28px;
 }
 
+.agenda-item:not(:first-of-type) {
+  border-top: 1px solid var(--grey-3);
+}
+
 .agenda-item__col:nth-child(1) {
   flex: 1 0 48px;
   max-width: 48px;
