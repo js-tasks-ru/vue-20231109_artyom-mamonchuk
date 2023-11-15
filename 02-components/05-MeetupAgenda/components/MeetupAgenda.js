@@ -9,24 +9,11 @@ export default defineComponent({
   props: {
     agenda: {
       type: Array,
-      default() {
-        return [
-          {
-            id: 35,
-            startsAt: '07:30',
-            endsAt: '09:00',
-            type: 'registration',
-            title: null,
-            description: null,
-            speaker: null,
-            language: null,
-          },
-        ];
-      },
+      required: true,
     },
   },
   template: `
-    <ul class="agenda">
+    <ul class="agenda" v-if="agenda.length">
       <li class="agenda__item" v-for="meetup in agenda">
         <meetup-agenda-item :agenda-item="meetup"></meetup-agenda-item>
       </li>
