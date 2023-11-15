@@ -3,12 +3,8 @@ import { agendaItemIcons, agendaItemDefaultTitles } from '../meetupService.js';
 
 export default defineComponent({
   name: 'MeetupAgendaItem',
-  data() {
-    return {
-      agendaItemIcons,
-      agendaItemDefaultTitles,
-    };
-  },
+  agendaItemIcons,
+  agendaItemDefaultTitles,
   props: {
     agendaItem: {
       type: Object,
@@ -27,20 +23,24 @@ export default defineComponent({
   },
   computed: {
     itemIconAlt() {
-      return this.agendaItemIcons[this.agendaItem.type] === undefined ? '' : this.agendaItemIcons[this.agendaItem.type];
+      return this.$options.agendaItemIcons[this.agendaItem.type] === undefined
+        ? ''
+        : this.$options.agendaItemIcons[this.agendaItem.type];
     },
     itemIconImg() {
-      return `/assets/icons/icon-${this.agendaItemIcons[this.agendaItem.type]}.svg`;
+      return `/assets/icons/icon-${this.$options.agendaItemIcons[this.agendaItem.type]}.svg`;
     },
     itemTitle() {
-      return this.agendaItem.title === null ? agendaItemDefaultTitles[this.agendaItem.type] : this.agendaItem.title;
+      return this.agendaItem.title === null
+        ? this.$options.agendaItemDefaultTitles[this.agendaItem.type]
+        : this.agendaItem.title;
     },
   },
 
   template: `
     <div class="agenda-item mb-4">
       <div class="agenda-item__col">
-        <img :src="itemIconImg" class="icon" :alt="itemIconAlt" v-if="agendaItemIcons[this.agendaItem.type]" />
+        <img :src="itemIconImg" class="icon" :alt="itemIconAlt" v-if="$options.agendaItemIcons[this.agendaItem.type]" />
       </div>
       <div class="agenda-item__col">{{ agendaItem.startsAt }} - {{ agendaItem.endsAt }}</div>
       <div class="agenda-item__col">
