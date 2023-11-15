@@ -12,7 +12,7 @@ export default defineComponent({
   template: `
 	<button type="button" class="btn btn-primary"
 		:value="count"
-		@click="$emit('update:count', Number($event.target.value) + 1)">{{ count }}
+		@click="$emit('update:count', count + 1)">{{ count }}
 	</button>
   `,
 });
