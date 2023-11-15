@@ -8,9 +8,9 @@ export default defineComponent({
   components: {
     MeetupDescription,
   },
-
   data() {
     return {
+      name: 'App',
       meetups,
       selectedMeetup: 0,
     };
@@ -23,18 +23,16 @@ export default defineComponent({
   },
 
   template: `
-    <div class="sample container meetup__content">
-      <p>
-        <select v-model="selectedMeetup">
+   <div class="container meetup__content pt-5 pb-5">
+		<template v-if="meetups">
+      	<select class="mb-4 form-select" v-model="selectedMeetup">
           <option v-for="(meetup, index) in meetups" :key="meetup.id" :value="index">
             {{ index }}: {{ meetup.title }}
           </option>
-        </select>
-      </p>
-
-      <h3>Описание</h3>
-
-      <MeetupDescription :description="description" />
-    </div>
+      	</select>
+      	<h3>Описание</h3>
+      	<MeetupDescription :description="description" />
+		</template>
+   </div>
   `,
 });

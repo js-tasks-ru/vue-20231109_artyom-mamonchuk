@@ -23,14 +23,13 @@ export default defineComponent({
   },
 
   template: `
-    <div class="sample">
+    <div class="container pt-5 pb-5">
       <h1 class="my">С изображением</h1>
-      <MeetupCover :title="meetupWithImage.title" :image="meetupWithImage.image" />
+      <meetup-cover :title="meetupWithImage.title" :image="meetupWithImage.image"></meetup-cover>
 
-      <hr class="my" />
-
+      <hr class="my"/>
       <h1 class="my">Без изображения</h1>
-      <MeetupCover :title="meetupWithoutImage.title" :image="meetupWithoutImage.image" />
+      <meetup-cover :title="meetupWithoutImage.title" :image="meetupWithoutImage.image"></meetup-cover>
     </div>
   `,
 });
