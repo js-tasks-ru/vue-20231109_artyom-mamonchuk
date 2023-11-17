@@ -4,7 +4,7 @@ export default defineComponent({
   name: 'UiContainer',
 
   template: `
-    <div class="container">
-      <slot />
+    <div>
+      <slot></slot>
     </div>`,
 });
