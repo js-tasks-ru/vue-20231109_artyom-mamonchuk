@@ -20,6 +20,7 @@ export default defineComponent({
       meetup: null,
       downloadMessage: true,
       errorMessage: false,
+      errorText: '',
     };
   },
   props: {
@@ -37,13 +38,14 @@ export default defineComponent({
       .catch((error) => {
         this.downloadMessage = false;
         this.errorMessage = true;
-        console.error(error);
+        this.errorText = error.message;
       });
   },
   watch: {
     meetupId(newMeetupId) {
       this.downloadMessage = true;
       this.errorMessage = false;
+      this.errorText = '';
       this.meetup = null;
 
       fetchMeetupById(newMeetupId)
@@ -56,7 +58,7 @@ export default defineComponent({
           this.downloadMessage = false;
           this.errorMessage = true;
           this.meetup = null;
-          console.error(error);
+          this.errorText = error.message;
         });
     },
   },
@@ -67,7 +69,7 @@ export default defineComponent({
       </ui-container>
 
       <ui-container v-if="errorMessage">
-      	<UiAlert class="alert alert-danger">error</UiAlert>
+      	<UiAlert class="alert alert-danger">{{ errorText }}</UiAlert>
       </ui-container>
 
       <meetup-view :meetup="meetup" v-if="meetup"></meetup-view>
