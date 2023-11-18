@@ -10,18 +10,12 @@ export default defineComponent({
       meetupId: 1,
     };
   },
-
   template: `
-    <div class="sample">
-      <div class="container">
-        <p>
-          <select v-model="meetupId">
-            <option v-for="i in 10" :key="i" :value="i">{{ i }}</option>
-          </select>
-        </p>
-      </div>
-
-      <PageMeetup :meetup-id="meetupId" />
+    <div class="container pt-5 pb-5">
+		<select v-model="meetupId" class="form-select mb-5">
+			<option v-for="i in 10" :key="i" :value="i">{{ i }}</option>
+		</select>
+      <page-meetup :meetup-id="meetupId"></page-meetup>
     </div>
   `,
 });

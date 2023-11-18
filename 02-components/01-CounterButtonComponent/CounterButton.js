@@ -11,7 +11,6 @@ export default defineComponent({
   emits: ['update:count'],
   template: `
 	<button type="button" class="btn btn-primary"
-		:value="count"
 		@click="$emit('update:count', count + 1)">{{ count }}
 	</button>
   `,
