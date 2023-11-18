@@ -2,7 +2,6 @@ import { defineComponent } from '../vendor/vue.esm-browser.js';
 import MeetupView from './MeetupView.js';
 import UiContainer from './UiContainer.js';
 import UiAlert from './UiAlert.js';
-import meetups from '../api/meetups.js';
 import { fetchMeetupById } from '../meetupService.js';
 
 export default defineComponent({
@@ -16,7 +15,6 @@ export default defineComponent({
 
   data() {
     return {
-      meetups,
       meetup: null,
       downloadMessage: true,
       errorMessage: false,
