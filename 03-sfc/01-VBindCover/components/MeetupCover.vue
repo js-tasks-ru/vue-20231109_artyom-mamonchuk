@@ -1,5 +1,5 @@
 <template>
-	<div class="mb-5 meetup-cover" :class="{ 'meetup-cover--image': image }">
+	<div class="mb-5 meetup-cover">
 		<h1 class="meetup-cover__title">{{ title }}</h1>
 	</div>
 </template>
@@ -17,7 +17,7 @@ const props = defineProps({
 	}
 });
 
-const imgUrl = computed(() => props.image && `url(${props.image})`)
+const imgUrl = computed(() => props.image ? `url(${props.image})` : 'var(--default-cover)')
 
 </script>
 
@@ -25,17 +25,12 @@ const imgUrl = computed(() => props.image && `url(${props.image})`)
 .meetup-cover {
 	background-size: cover;
 	background-position: center;
-	background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), var(--default-cover);
+	background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), v-bind(imgUrl);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	height: 410px;
-}
-
-.meetup-cover--image {
-	background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-		v-bind(imgUrl);
 }
 
 .meetup-cover__title {
