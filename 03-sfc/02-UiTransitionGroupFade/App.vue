@@ -1,16 +1,16 @@
 <template>
-  <PageMeetups />
+	<PageMeetups />
 </template>
 
 <script>
 import PageMeetups from './components/PageMeetups.vue';
 
 export default {
-  name: 'App',
+	name: 'App',
 
-  components: {
-    PageMeetups,
-  },
+	components: {
+		PageMeetups,
+	},
 };
 </script>
 
