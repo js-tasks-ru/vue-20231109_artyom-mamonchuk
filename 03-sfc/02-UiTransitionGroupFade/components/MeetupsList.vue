@@ -1,11 +1,11 @@
 <template>
-  <UiTransitionGroupFade class="meetups-list">
-    <li v-for="meetup in meetups" :key="meetup.id" class="meetups-list__item">
-      <a :href="`/meetups/${meetup.id}`" class="meetups-list__item-link" tabindex="0">
-        <MeetupCard :meetup="meetup" />
-      </a>
-    </li>
-  </UiTransitionGroupFade>
+	<UiTransitionGroupFade class="meetups-list">
+		<li v-for="meetup in meetups" :key="meetup.id" class="meetups-list__item">
+			<a :href="`/meetups/${meetup.id}`" class="meetups-list__item-link" tabindex="0">
+				<MeetupCard :meetup="meetup" />
+			</a>
+		</li>
+	</UiTransitionGroupFade>
 </template>
 
 <script>
@@ -13,36 +13,36 @@ import MeetupCard from './MeetupCard.vue';
 import UiTransitionGroupFade from './UiTransitionGroupFade.vue';
 
 export default {
-  name: 'MeetupsList',
+	name: 'MeetupsList',
 
-  components: {
-    UiTransitionGroupFade,
-    MeetupCard,
-  },
+	components: {
+		UiTransitionGroupFade,
+		MeetupCard,
+	},
 
-  props: {
-    meetups: {
-      type: Array,
-      required: true,
-    },
-  },
+	props: {
+		meetups: {
+			type: Array,
+			required: true,
+		},
+	},
 };
 </script>
 
 <style scoped>
 .meetups-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+	margin: 0;
+	padding: 0;
+	list-style: none;
 }
 
 .meetups-list__item {
-  margin: 0 0 32px 0;
-  text-decoration: none;
+	margin: 0 0 32px 0;
+	text-decoration: none;
 }
 
 .meetups-list__item-link {
-  text-decoration: none;
-  color: inherit;
+	text-decoration: none;
+	color: inherit;
 }
 </style>
