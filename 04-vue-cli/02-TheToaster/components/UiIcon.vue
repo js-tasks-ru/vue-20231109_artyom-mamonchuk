@@ -1,5 +1,5 @@
 <template>
-  <img class="icon" :alt="icon" :src="iconSrc" />
+	<img class="icon" :alt="icon" :src="iconSrc" />
 </template>
 
 <script>
@@ -22,46 +22,47 @@ import Tv from '@/assets/icons/icon-tv.svg';
 import User from '@/assets/icons/icon-user.svg';
 
 const icons = {
-  'alert-circle': AlertCircle,
-  'cal-sm': CalSm,
-  'cal-lg': CalLg,
-  check: Check,
-  'check-circle': CheckCircle,
-  'chevron-down': ChevronDown,
-  clock: Clock,
-  coffee: Coffee,
-  key: Key,
-  list: List,
-  map: Map,
-  'pen-tool': PenTool,
-  'pill-active': PillActive,
-  search: Search,
-  trash: Trash,
-  tv: Tv,
-  user: User,
+	'alert-circle': AlertCircle,
+	'cal-sm': CalSm,
+	'cal-lg': CalLg,
+	check: Check,
+	'check-circle': CheckCircle,
+	'chevron-down': ChevronDown,
+	clock: Clock,
+	coffee: Coffee,
+	key: Key,
+	list: List,
+	map: Map,
+	'pen-tool': PenTool,
+	'pill-active': PillActive,
+	search: Search,
+	trash: Trash,
+	tv: Tv,
+	user: User,
 };
 
 export default {
-  name: 'UiIcon',
+	name: 'UiIcon',
 
-  props: {
-    icon: {
-      type: String,
-      required: true,
-      validator: (name) => Object.keys(icons).includes(name),
-    },
-  },
+	props: {
+		icon: {
+			type: String,
+			required: true,
+			validator: (name) => Object.keys(icons).includes(name),
+		},
+	},
 
-  computed: {
-    iconSrc() {
-      return icons[this.icon];
-    },
-  },
+	computed: {
+		iconSrc()
+		{
+			return icons[this.icon];
+		},
+	},
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .icon {
-  display: block;
+	display: block;
 }
 </style>
