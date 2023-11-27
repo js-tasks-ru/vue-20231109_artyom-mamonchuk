@@ -1,57 +1,55 @@
 <template>
-	<div class="form-group" :class="isInline">
-		<!-- form-group_inline -->
-		<!--  -->
-		<!-- CONTENT -->
-		<label class="form-group__label" v-if="label">{{ label }}</label>
-		<slot />
-	</div>
+  <div class="form-group" :class="isInline">
+    <!-- form-group_inline -->
+    <!--  -->
+    <!-- CONTENT -->
+    <label class="form-group__label" v-if="label">{{ label }}</label>
+    <slot />
+  </div>
 </template>
 
 <script>
 export default {
-	name: 'UiFormGroup',
+  name: 'UiFormGroup',
 
-	props: {
-		inline: {
-			type: Boolean,
-			default: false
-		},
-		label: {
-			type: String
-		}
-	},
-	computed:
-	{
-		isInline()
-		{
-			return { 'form-group_inline': this.inline }
-		}
-	}
+  props: {
+    inline: {
+      type: Boolean,
+      default: false,
+    },
+    label: {
+      type: String,
+    },
+  },
+  computed: {
+    isInline() {
+      return { 'form-group_inline': this.inline };
+    },
+  },
 };
 </script>
 
 <style scoped>
 .form-group {
-	position: relative;
-	margin-bottom: 24px;
+  position: relative;
+  margin-bottom: 24px;
 }
 
 .form-group.form-group_inline {
-	display: inline-block;
-	margin-bottom: 0;
+  display: inline-block;
+  margin-bottom: 0;
 }
 
-.form-group.form-group_inline+.form-group.form-group_inline {
-	margin-left: 16px;
+.form-group.form-group_inline + .form-group.form-group_inline {
+  margin-left: 16px;
 }
 
 .form-group__label {
-	font-weight: 400;
-	font-size: 20px;
-	line-height: 28px;
-	color: var(--body-color);
-	margin-bottom: 10px;
-	display: block;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  color: var(--body-color);
+  margin-bottom: 10px;
+  display: block;
 }
 </style>
