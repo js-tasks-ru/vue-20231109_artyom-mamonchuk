@@ -1,11 +1,11 @@
 <template>
 	<div class="toaster-controls">
-		<button type="button" class="btn btn-success" @click="handleClick('success')">Add Success Message</button>
-		<button type="button" class="btn btn-danger" @click="handleClick('error')">Add Error Message</button>
-		<button type="button" class="btn btn-info" @click="handleClick('info')">Add Info Message</button>
-		<button type="button" class="btn btn-warning" @click="handleClick('warning')">Add Warning Message</button>
+		<button type="button" class="btn btn-success" @click="handleSuccessClick">Add Success Message</button>
+		<button type="button" class="btn btn-danger" @click="handleErrorClick">Add Error Message</button>
+		<button type="button" class="btn btn-info" @click="handleInfoClick">Add Info Message</button>
+		<button type="button" class="btn btn-warning" @click="handleWarningClick">Add Warning Message</button>
 	</div>
-	<TheToaster v-if="toasters.length" :toasters="toasters" @delete-toast="handleDeleteToast" />
+	<TheToaster ref="toaster" />
 </template>
 
 <script>
@@ -16,73 +16,23 @@ export default {
 
 	components: { TheToaster },
 
-	toastersText: [
-		{
-			status: 'success',
-			text: 'Success',
-			icon: 'check-circle'
-		},
-		{
-			status: 'error',
-			text: 'Error',
-			icon: 'alert-circle'
-		},
-		{
-			status: 'info',
-			text: 'Info',
-			icon: 'chevron-down'
-		},
-		{
-			status: 'warning',
-			text: 'Warning',
-			icon: 'trash'
-		}
-	],
-
-	data()
-	{
-		return {
-			toasters: [],
-		}
-	},
-
 	methods: {
-		handleClick(status)
+		handleSuccessClick()
 		{
-			const toasterFiltered = (this.$options.toastersText.filter(el => el.status === status));
-			const [toast] = toasterFiltered;
-
-			const newToaster = {
-				id: Date.now(),
-				timestamp: new Date().toLocaleTimeString(),
-				status: toast.status,
-				text: toast.text,
-				icon: toast.icon
-			}
-
-			this.toasters.push(newToaster);
+			this.$refs.toaster.success('Success ' + new Date().toLocaleTimeString());
 		},
-		handleDeleteToast(index)
+		handleErrorClick()
 		{
-			this.toasters.splice(index, 1);
-
+			this.$refs.toaster.error('Error ' + new Date().toLocaleTimeString());
 		},
-		autoDeleteToast()
+		handleInfoClick()
 		{
-			setTimeout(() =>
-			{
-				this.toasters.shift();
-			}, 5000);
+			this.$refs.toaster.info('Info ' + new Date().toLocaleTimeString());
+		},
+		handleWarningClick()
+		{
+			this.$refs.toaster.warning('Warning ' + new Date().toLocaleTimeString());
 		}
-	},
-	watch: {
-		toasters: {
-			handler()
-			{
-				this.autoDeleteToast();
-			},
-			deep: true
-		},
 	}
 };
 </script>
