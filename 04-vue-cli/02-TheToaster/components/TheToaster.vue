@@ -112,8 +112,12 @@ export default {
 			const timeout = setTimeout(() =>
 			{
 				this.toasters.shift();
-				clearTimeout(timeout);
+
 			}, 5000);
+
+			if (this.toasters.length < 1) {
+				clearTimeout(timeout);
+			}
 		}
 	},
 
