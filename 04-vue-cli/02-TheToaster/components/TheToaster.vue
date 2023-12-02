@@ -1,8 +1,7 @@
 <template>
 	<div class="toasts">
-		<UiToast v-for="(toaster, index) in toasters" :key="toaster.id" :toster-status="toaster.status"
-			:toster-icon="toaster.icon" @delete-toast="deleteToast(index)">
-			<span>{{ toaster.text }} {{ toaster.timestamp }}</span>
+		<UiToast v-for="(toaster, index) in toasters" :key="toaster.id" :toaster="toaster"
+			@delete-toast="deleteToast(index)">
 		</UiToast>
 	</div>
 </template>
@@ -16,25 +15,6 @@ export default {
 
 	components: { UiIcon, UiToast },
 
-	toastersText: [
-		{
-			status: 'success',
-			icon: 'check-circle'
-		},
-		{
-			status: 'error',
-			icon: 'alert-circle'
-		},
-		{
-			status: 'info',
-			icon: 'chevron-down'
-		},
-		{
-			status: 'warning',
-			icon: 'trash'
-		}
-	],
-
 	data()
 	{
 		return {
@@ -45,63 +25,51 @@ export default {
 	methods: {
 		success(toastMessage)
 		{
-			const toasterFiltered = (this.$options.toastersText.filter(el => el.status === 'success'));
-			const [toast] = toasterFiltered;
-
 			const newToaster = {
-				id: Date.now(),
-				timestamp: new Date().toLocaleTimeString(),
-				status: toast.status,
+				id: Math.floor(Math.random() * 1000),
+				status: 'success',
 				text: toastMessage,
-				icon: toast.icon
 			}
 
 			this.toasters.push(newToaster);
+
+			this.autoDeleteToast();
 		},
 		error(toastMessage)
 		{
-			const toasterFiltered = (this.$options.toastersText.filter(el => el.status === 'error'));
-			const [toast] = toasterFiltered;
-
 			const newToaster = {
-				id: Date.now(),
-				timestamp: new Date().toLocaleTimeString(),
-				status: toast.status,
+				id: Math.floor(Math.random() * 1000),
+				status: 'error',
 				text: toastMessage,
-				icon: toast.icon
 			}
 
 			this.toasters.push(newToaster);
+
+			this.autoDeleteToast();
 		},
 		info(toastMessage)
 		{
-			const toasterFiltered = (this.$options.toastersText.filter(el => el.status === 'info'));
-			const [toast] = toasterFiltered;
-
 			const newToaster = {
-				id: Date.now(),
-				timestamp: new Date().toLocaleTimeString(),
-				status: toast.status,
+				id: Math.floor(Math.random() * 1000),
+				status: 'info',
 				text: toastMessage,
-				icon: toast.icon
 			}
 
 			this.toasters.push(newToaster);
+
+			this.autoDeleteToast();
 		},
 		warning(toastMessage)
 		{
-			const toasterFiltered = (this.$options.toastersText.filter(el => el.status === 'warning'));
-			const [toast] = toasterFiltered;
-
 			const newToaster = {
-				id: Date.now(),
-				timestamp: new Date().toLocaleTimeString(),
-				status: toast.status,
+				id: Math.floor(Math.random() * 1000),
+				status: 'warning',
 				text: toastMessage,
-				icon: toast.icon
 			}
 
 			this.toasters.push(newToaster);
+
+			this.autoDeleteToast();
 		},
 		deleteToast(index)
 		{
@@ -109,27 +77,13 @@ export default {
 		},
 		autoDeleteToast()
 		{
-			const timeout = setTimeout(() =>
+			setTimeout(() =>
 			{
 				this.toasters.shift();
 
 			}, 5000);
-
-			if (this.toasters.length < 1) {
-				clearTimeout(timeout);
-			}
 		}
 	},
-
-	watch: {
-		toasters: {
-			handler()
-			{
-				this.autoDeleteToast();
-			},
-			deep: true
-		},
-	}
 };
 </script>
 

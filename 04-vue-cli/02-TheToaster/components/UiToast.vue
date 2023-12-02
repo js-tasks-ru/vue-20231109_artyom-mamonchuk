@@ -1,8 +1,8 @@
 <template>
-	<div class="toast" :class="statusClass">
-		<UiIcon class="toast__icon" :icon="tosterIcon" />
-		<slot />
-		<button class="toast__btn btn btn-close" @click="$emit('delete-toast')">
+	<div class="toast" :class="toastClass">
+		<UiIcon class="toast__icon" :icon="toastIcon" />
+		<span>{{ toaster.text }}</span>
+		<button class="toast__btn btn btn-close" @click="$emit('deleteToast')">
 		</button>
 	</div>
 </template>
@@ -15,23 +15,39 @@ export default {
 
 	components: { UiIcon },
 
-	emits: ['delete-toast'],
+	emits: ['deleteToast'],
 
 	props: {
-		tosterStatus: {
-			type: String,
-			required: true,
-			validator: (status) => ['success', 'error', 'info', 'warning'].includes(status),
-		},
-		tosterIcon: {
-			type: String,
+		toaster: {
+			type: Object,
 			required: true,
 		},
 	},
 	computed: {
-		statusClass()
+		toastClass()
 		{
-			return { [`toast_${this.tosterStatus}`]: this.tosterStatus };
+			return {
+				toast_success: this.toaster.status === 'success',
+				toast_error: this.toaster.status === 'error',
+				toast_warning: this.toaster.status === 'warning',
+				toast_info: this.toaster.status === 'info',
+			}
+
+		},
+		toastIcon()
+		{
+			switch (this.toaster.status) {
+				case 'success':
+					return 'check-circle';
+				case 'error':
+					return 'alert-circle';
+				case 'warning':
+					return 'trash';
+				case 'info':
+					return 'chevron-down';
+				default:
+					return '';
+			}
 		},
 	},
 };
@@ -84,5 +100,9 @@ export default {
 	background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23dc3545'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e");
 	border: none;
 	opacity: 1;
+}
+
+.toast__icon {
+	margin-right: 12px;
 }
 </style>
