@@ -42,20 +42,20 @@ export default {
 		// Проверить, какой день недели является первым днем в выбранном месяце
 		getWeekday(date)
 		{
-			return new Date(date).getDay();
+			return new Date(date).getUTCDay();
 		},
 	},
 
 	computed: {
 		today()
 		{
-			return `${new Date().getUTCFullYear()}-${new Date().getUTCMonth() + 1}-${new Date().getDate()}`;
+			return `${new Date().getUTCFullYear()}-${new Date().getUTCMonth() + 1}-${new Date().getUTCDate()}`;
 		},
 
 		// Количество дней в текущем месяце
 		numberOfDaysInMonth()
 		{
-			return new Date(this.year, this.month, 0).getDate();
+			return new Date(this.year, this.month, 0).getUTCDate();
 		},
 
 		// Дни текущего месяца
@@ -89,7 +89,7 @@ export default {
 
 			// Последний понедельник предыдущего месяца
 			const previousMonthLastMondayDayOfMonth = new Date(
-				currentDateObj.setDate(currentDateObj.getDate() - ((currentDateObj.getDay() + 6) % 7)),
+				currentDateObj.setUTCDate(currentDateObj.getUTCDate() - ((currentDateObj.getUTCDay() + 6) % 7)),
 			);
 
 			return [...Array(visibleNumberOfDaysFromPreviousMonth)].map((day, index) =>
@@ -97,7 +97,7 @@ export default {
 				return {
 					id: Math.floor(Math.random() * 100000),
 					date: `${previousMonthLastMondayDayOfMonth.getUTCFullYear()}-${previousMonthLastMondayDayOfMonth.getUTCMonth() + 1
-						}-${previousMonthLastMondayDayOfMonth.getDate() + index}`,
+						}-${previousMonthLastMondayDayOfMonth.getUTCDate() + index}`,
 					isCurrentMonth: false,
 				};
 			});
