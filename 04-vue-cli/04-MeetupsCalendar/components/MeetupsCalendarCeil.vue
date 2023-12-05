@@ -49,11 +49,11 @@ export default {
 		},
 		label()
 		{
-			return new Date(this.day?.date).getUTCDate();
+			return new Date(this.day?.date).getDate();
 		},
 		dayEvents()
 		{
-			return this.events.filter((e) => new Date(e.date).getUTCDate() === new Date(`${this.date}`).getUTCDate());
+			return this.events.filter((e) => new Date(e.date).getDate() === new Date(`${this.date}`).getDate());
 		},
 	},
 };

@@ -16,11 +16,11 @@ export default {
 	props: {
 		year: {
 			type: Number,
-			default: () => new Date().getUTCFullYear(),
+			default: () => new Date().getFullYear(),
 		},
 		month: {
 			type: Number,
-			default: () => new Date().getUTCMonth() + 1,
+			default: () => new Date().getMonth() + 1,
 		},
 	},
 

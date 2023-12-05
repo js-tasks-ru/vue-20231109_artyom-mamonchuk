@@ -34,28 +34,28 @@ export default {
 	{
 		return {
 			selectedDate: new Date(),
-			month: new Date().getUTCMonth() + 1,
-			year: new Date().getUTCFullYear(),
+			month: new Date().getMonth() + 1,
+			year: new Date().getFullYear(),
 		};
 	},
 	methods: {
 		// Проверить, какой день недели является первым днем в выбранном месяце
 		getWeekday(date)
 		{
-			return new Date(date).getUTCDay();
+			return new Date(date).getDay();
 		},
 	},
 
 	computed: {
 		today()
 		{
-			return `${new Date().getUTCFullYear()}-${new Date().getUTCMonth() + 1}-${new Date().getUTCDate()}`;
+			return `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`;
 		},
 
 		// Количество дней в текущем месяце
 		numberOfDaysInMonth()
 		{
-			return new Date(this.year, this.month, 0).getUTCDate();
+			return new Date(this.year, this.month, 0).getDate();
 		},
 
 		// Дни текущего месяца
@@ -89,15 +89,15 @@ export default {
 
 			// Последний понедельник предыдущего месяца
 			const previousMonthLastMondayDayOfMonth = new Date(
-				currentDateObj.setUTCDate(currentDateObj.getUTCDate() - ((currentDateObj.getUTCDay() + 6) % 7)),
+				currentDateObj.setDate(currentDateObj.getDate() - ((currentDateObj.getDay() + 6) % 7)),
 			);
 
 			return [...Array(visibleNumberOfDaysFromPreviousMonth)].map((day, index) =>
 			{
 				return {
 					id: Math.floor(Math.random() * 100000),
-					date: `${previousMonthLastMondayDayOfMonth.getUTCFullYear()}-${previousMonthLastMondayDayOfMonth.getUTCMonth() + 1
-						}-${previousMonthLastMondayDayOfMonth.getUTCDate() + index}`,
+					date: `${previousMonthLastMondayDayOfMonth.getFullYear()}-${previousMonthLastMondayDayOfMonth.getMonth() + 1
+						}-${previousMonthLastMondayDayOfMonth.getDate() + index}`,
 					isCurrentMonth: false,
 				};
 			});
@@ -109,8 +109,8 @@ export default {
 			const lastDayOfTheMonthWeekday = this.getWeekday(`${this.year}-${this.month}-${this.currentMonthDays.length}`);
 
 			const currentDateObj = new Date(this.currentMonthDays[0].date);
-			const nextMonth = currentDateObj.getUTCMonth() + 1 < this.month ? currentDateObj.getUTCMonth() + 2 : 1;
-			const nextYear = nextMonth <= this.month ? currentDateObj.getUTCFullYear() : currentDateObj.getUTCFullYear() + 1;
+			const nextMonth = currentDateObj.getMonth() + 1 < this.month ? currentDateObj.getMonth() + 2 : 1;
+			const nextYear = nextMonth <= this.month ? currentDateObj.getFullYear() : currentDateObj.getFullYear() + 1;
 
 			const visibleNumberOfDaysFromNextMonth = lastDayOfTheMonthWeekday
 				? 7 - lastDayOfTheMonthWeekday
@@ -136,8 +136,8 @@ export default {
 			return this.meetups.filter((event) =>
 			{
 				const eventDate = new Date(event.date);
-				const year = eventDate.getUTCFullYear() === this.year;
-				const month = eventDate.getUTCMonth() + 1 === this.month;
+				const year = eventDate.getFullYear() === this.year;
+				const month = eventDate.getMonth() + 1 === this.month;
 				return year && month;
 			});
 		},
