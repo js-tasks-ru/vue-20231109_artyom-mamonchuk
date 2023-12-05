@@ -6,7 +6,7 @@
 			</span>
 		</div>
 		<div class="calendar-view__cell-content">
-			<MeetupsCalendarEvent v-for="event in dayEvents" :key="event.id" :title="event.title" />
+			<MeetupsCalendarEvent v-for="event in dayEvents" :key="event.id" :title="event.title" :id="event.id" />
 		</div>
 	</div>
 </template>
