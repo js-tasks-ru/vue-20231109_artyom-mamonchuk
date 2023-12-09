@@ -1,27 +1,27 @@
 <template>
-  <div class="page-meetup">
-    <template v-if="meetup">
-      <MeetupCover :title="meetup.title" :image="meetup.image" />
+	<div class="page-meetup">
+		<template v-if="meetup">
+			<MeetupCover :title="meetup.title" :image="meetup.image" />
 
-      <UiContainer>
-        <div class="meetup">
-          <div class="meetup__content">
-            <h2>{{ meetup.title }}</h2>
-            <p>
-              <RouterLink :to="{ name: 'meetup.description', params: { meetupId } }">Description</RouterLink>
-            </p>
-            <p>
-              <RouterLink :to="{ name: 'meetup.agenda', params: { meetupId } }">Agenda</RouterLink>
-            </p>
-            <RouterView :meetup="meetup" />
-          </div>
-          <div class="meetup__aside">
-            <!-- ... -->
-          </div>
-        </div>
-      </UiContainer>
-    </template>
-  </div>
+			<UiContainer>
+				<div class="meetup">
+					<div class="meetup__content">
+						<h2>{{ meetup.title }}</h2>
+						<p>
+							<RouterLink :to="{ name: 'meetup.description', params: { meetupId } }">Description</RouterLink>
+						</p>
+						<p>
+							<RouterLink :to="{ name: 'meetup.agenda', params: { meetupId } }">Agenda</RouterLink>
+						</p>
+						<RouterView :meetup="meetup" />
+					</div>
+					<div class="meetup__aside">
+						<!-- ... -->
+					</div>
+				</div>
+			</UiContainer>
+		</template>
+	</div>
 </template>
 
 <script>
@@ -31,93 +31,99 @@ import MeetupCover from '../components/MeetupCover.vue';
 import { fetchMeetup } from '../api.js';
 
 export default {
-  name: 'PageMeetup',
+	name: 'PageMeetup',
 
-  components: { MeetupCover, UiAlert, UiContainer },
+	components: { MeetupCover, UiAlert, UiContainer },
 
-  beforeRouteEnter(to) {
-    return fetchMeetup(to.params.meetupId)
-      .then((meetup) => {
-        return (vm) => {
-          vm.setMeetup(meetup);
-        };
-      })
-      .catch(() => ({ name: 'meetups' }));
-  },
+	beforeRouteEnter(to)
+	{
+		return fetchMeetup(to.params.meetupId)
+			.then((meetup) =>
+			{
+				return (vm) =>
+				{
+					vm.setMeetup(meetup);
+				};
+			})
+			.catch(() => ({ name: 'meetups' }));
+	},
 
-  beforeRouteUpdate(to, from) {
-    if (to.params.meetupId !== from.params.meetupId) {
-      this.meetup = null;
-      return fetchMeetup(to.params.meetupId)
-        .then((meetup) => {
-          this.setMeetup(meetup);
-        })
-        .catch(() => ({ name: 'meetups' }));
-    }
-    return true;
-  },
+	beforeRouteUpdate(to, from)
+	{
+		if (to.params.meetupId !== from.params.meetupId) {
+			this.meetup = null;
+			return fetchMeetup(to.params.meetupId)
+				.then((meetup) =>
+				{
+					this.setMeetup(meetup);
+				})
+				.catch(() => ({ name: 'meetups' }));
+		}
+		return true;
+	},
 
-  props: {
-    meetupId: {
-      type: String,
-      required: true,
-    },
-  },
+	props: {
+		meetupId: {
+			type: String,
+			required: true,
+		},
+	},
 
-  data() {
-    return {
-      meetup: null,
-    };
-  },
+	data()
+	{
+		return {
+			meetup: null,
+		};
+	},
 
-  methods: {
-    setMeetup(meetup) {
-      this.meetup = meetup;
-    },
-  },
+	methods: {
+		setMeetup(meetup)
+		{
+			this.meetup = meetup;
+		},
+	},
 };
 </script>
 
 <style scoped>
 .page-meetup {
-  background-color: var(--white);
+	background-color: var(--white);
 }
 
 .meetup {
-  display: flex;
-  flex-direction: column;
-  margin: 48px 0 0;
+	display: flex;
+	flex-direction: column;
+	margin: 48px 0 0;
 }
 
-.meetup__content {
-}
+.meetup__content {}
 
 .meetup__aside {
-  margin: 40px 0;
+	margin: 40px 0;
 }
 
 .meetup__aside-buttons {
-  padding: 0 0 0 34px;
-  margin-top: 16px;
+	padding: 0 0 0 34px;
+	margin-top: 16px;
 }
 
 .meetup__aside-button {
-  margin: 0 10px 10px 0;
+	margin: 0 10px 10px 0;
 }
 
 @media all and (min-width: 992px) {
-  .meetup {
-    flex-direction: row;
-  }
+	.meetup {
+		flex-direction: row;
+	}
 
-  .meetup__content {
-    flex: 1 0 calc(100% - 350px);
-  }
+	.meetup__content {
+		flex: 1 0 calc(100% - 350px);
+	}
 
-  .meetup__aside {
-    flex: 1 0 350px;
-    padding: 50px 0 0 44px;
-    margin: 0;
-  }
+	.meetup__aside {
+		flex: 1 0 350px;
+		padding: 50px 0 0 44px;
+		margin: 0;
+	}
 }
 </style>
