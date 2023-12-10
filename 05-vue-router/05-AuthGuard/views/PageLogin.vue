@@ -1,14 +1,15 @@
 <template>
-  <div>
-    PageLogin - только для гостей.
-    <template v-if="$route.query.from">query.from === {{ $route.query.from }}</template>
-  </div>
+	<div>
+		PageLogin - только для гостей.
+		<template v-if="$route.query.from">query.from === {{ $route.query.from }}</template>
+	</div>
 </template>
 
 <script>
 export default {
-  name: 'PageLogin',
+	name: 'PageLogin',
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>
