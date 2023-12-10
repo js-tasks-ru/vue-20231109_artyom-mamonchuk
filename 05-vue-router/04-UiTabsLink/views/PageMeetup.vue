@@ -1,26 +1,26 @@
 <template>
-  <div class="page-meetup">
-    <template v-if="meetup">
-      <MeetupCover :title="meetup.title" :image="meetup.image" />
+	<div class="page-meetup">
+		<template v-if="meetup">
+			<MeetupCover :title="meetup.title" :image="meetup.image" />
 
-      <UiContainer>
-        <div class="meetup">
-          <div class="meetup__content">
-            <UiTabs>
-              <template #tabs>
-                <UiTabsLink :to="{ name: 'meetup.description', params: { meetupId } }">Описание</UiTabsLink>
-                <UiTabsLink :to="`/meetups/${meetupId}/agenda`">Программа</UiTabsLink>
-              </template>
-              <RouterView :meetup="meetup" />
-            </UiTabs>
-          </div>
-          <div class="meetup__aside">
-            <!-- ... -->
-          </div>
-        </div>
-      </UiContainer>
-    </template>
-  </div>
+			<UiContainer>
+				<div class="meetup">
+					<div class="meetup__content">
+						<UiTabs>
+							<template #tabs>
+								<UiTabsLink :to="{ name: 'meetup.description', params: { meetupId } }">Описание</UiTabsLink>
+								<UiTabsLink :to="`/meetups/${meetupId}/agenda`">Программа</UiTabsLink>
+							</template>
+							<RouterView :meetup="meetup" />
+						</UiTabs>
+					</div>
+					<div class="meetup__aside">
+						<!-- ... -->
+					</div>
+				</div>
+			</UiContainer>
+		</template>
+	</div>
 </template>
 
 <script>
@@ -32,89 +32,95 @@ import UiTabs from '../components/UiTabs.vue';
 import UiTabsLink from '../components/UiTabsLink.vue';
 
 export default {
-  name: 'PageMeetup',
+	name: 'PageMeetup',
 
-  components: { UiTabsLink, UiTabs, MeetupCover, UiAlert, UiContainer },
+	components: { UiTabsLink, UiTabs, MeetupCover, UiAlert, UiContainer },
 
-  beforeRouteEnter(to) {
-    return fetchMeetup(to.params.meetupId)
-      .then((meetup) => {
-        return (vm) => {
-          vm.setMeetup(meetup);
-        };
-      })
-      .catch(() => ({ name: 'meetups' }));
-  },
+	beforeRouteEnter(to)
+	{
+		return fetchMeetup(to.params.meetupId)
+			.then((meetup) =>
+			{
+				return (vm) =>
+				{
+					vm.setMeetup(meetup);
+				};
+			})
+			.catch(() => ({ name: 'meetups' }));
+	},
 
-  beforeRouteUpdate(to, from) {
-    if (to.params.meetupId !== from.params.meetupId) {
-      this.meetup = null;
-      return fetchMeetup(to.params.meetupId)
-        .then((meetup) => {
-          this.setMeetup(meetup);
-        })
-        .catch(() => ({ name: 'meetups' }));
-    }
-    return true;
-  },
+	beforeRouteUpdate(to, from)
+	{
+		if (to.params.meetupId !== from.params.meetupId) {
+			this.meetup = null;
+			return fetchMeetup(to.params.meetupId)
+				.then((meetup) =>
+				{
+					this.setMeetup(meetup);
+				})
+				.catch(() => ({ name: 'meetups' }));
+		}
+		return true;
+	},
 
-  props: {
-    meetupId: {
-      type: String,
-      required: true,
-    },
-  },
+	props: {
+		meetupId: {
+			type: String,
+			required: true,
+		},
+	},
 
-  data() {
-    return {
-      meetup: null,
-    };
-  },
+	data()
+	{
+		return {
+			meetup: null,
+		};
+	},
 
-  methods: {
-    setMeetup(meetup) {
-      this.meetup = meetup;
-    },
-  },
+	methods: {
+		setMeetup(meetup)
+		{
+			this.meetup = meetup;
+		},
+	},
 };
 </script>
 
 <style scoped>
 .meetup {
-  display: flex;
-  flex-direction: column;
-  margin: 48px 0 0;
+	display: flex;
+	flex-direction: column;
+	margin: 48px 0 0;
 }
 
-.meetup__content {
-}
+.meetup__content {}
 
 .meetup__aside {
-  margin: 40px 0;
+	margin: 40px 0;
 }
 
 .meetup__aside-buttons {
-  padding: 0 0 0 34px;
-  margin-top: 16px;
+	padding: 0 0 0 34px;
+	margin-top: 16px;
 }
 
 .meetup__aside-button {
-  margin: 0 10px 10px 0;
+	margin: 0 10px 10px 0;
 }
 
 @media all and (min-width: 992px) {
-  .meetup {
-    flex-direction: row;
-  }
+	.meetup {
+		flex-direction: row;
+	}
 
-  .meetup__content {
-    flex: 1 0 calc(100% - 350px);
-  }
+	.meetup__content {
+		flex: 1 0 calc(100% - 350px);
+	}
 
-  .meetup__aside {
-    flex: 1 0 350px;
-    padding: 50px 0 0 44px;
-    margin: 0;
-  }
+	.meetup__aside {
+		flex: 1 0 350px;
+		padding: 50px 0 0 44px;
+		margin: 0;
+	}
 }
 </style>

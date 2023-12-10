@@ -1,11 +1,11 @@
 <template>
-  <div class="wrapper">
-    <MeetupsHeader />
-    <main class="main">
-      <RouterView />
-    </main>
-    <MeetupsFooter />
-  </div>
+	<div class="wrapper">
+		<MeetupsHeader />
+		<main class="main">
+			<RouterView />
+		</main>
+		<MeetupsFooter />
+	</div>
 </template>
 
 <script>
@@ -13,12 +13,12 @@ import MeetupsHeader from './components/MeetupsHeader.vue';
 import MeetupsFooter from './components/MeetupsFooter.vue';
 
 export default {
-  name: 'App',
+	name: 'App',
 
-  components: {
-    MeetupsHeader,
-    MeetupsFooter,
-  },
+	components: {
+		MeetupsHeader,
+		MeetupsFooter,
+	},
 };
 </script>
 
@@ -28,13 +28,13 @@ export default {
 @import '@/assets/styles/_common.css';
 
 .wrapper {
-  background-color: var(--grey-light);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+	background-color: var(--grey-light);
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 }
 
 .main {
-  flex: 1 0 auto;
+	flex: 1 0 auto;
 }
 </style>
