@@ -6,11 +6,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      name: 'index',
       alias: '/meetups',
       component: () => import('../views/PageMeetups.vue'),
     },
     {
       path: '/login',
+      name: 'login',
       meta: {
         requireGuest: true,
       },
@@ -18,6 +20,7 @@ const router = createRouter({
     },
     {
       path: '/register',
+      name: 'register',
       meta: {
         requireGuest: true,
       },
@@ -25,6 +28,7 @@ const router = createRouter({
     },
     {
       path: '/meetups/create',
+      name: 'create',
       meta: {
         requireAuth: true,
       },
@@ -32,12 +36,27 @@ const router = createRouter({
     },
     {
       path: '/meetups/:meetupId(\\d+)/edit',
+      name: 'edit',
       meta: {
         requireAuth: true,
       },
       component: () => import('../views/PageEditMeetup.vue'),
     },
   ],
+});
+
+router.beforeEach((to, from) => {
+  const requireGuest = to.meta.requireGuest;
+  const requireAuth = to.meta.requireAuth;
+  const guest = !isAuthenticated();
+  const user = !guest;
+
+  if (user && requireGuest) {
+    return { name: 'index' };
+  }
+  if (guest && requireAuth) {
+    return { name: 'login', query: { from: to.path } };
+  }
 });
 
 export { router };

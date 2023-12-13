@@ -1,141 +1,227 @@
 <template>
-  <div class="dropdown dropdown_opened">
-    <button type="button" class="dropdown__toggle dropdown__toggle_icon">
-      <UiIcon icon="tv" class="dropdown__icon" />
-      <span>Title</span>
-    </button>
+	<div class="dropdown" :class="{ 'dropdown_opened': isOpened }" ref="dropDown">
+		<button type="button" class="dropdown__toggle" :class="{ 'dropdown__toggle_icon': existIcon }"
+			@click="toggleVisibilityDropdownMenu">
+			<UiIcon v-if="currentOption?.icon" :icon="currentOption.icon" class="dropdown__icon" />
+			<span>{{ currentOption?.text || title }}</span>
+		</button>
 
-    <div class="dropdown__menu" role="listbox">
-      <button class="dropdown__item dropdown__item_icon" role="option" type="button">
-        <UiIcon icon="tv" class="dropdown__icon" />
-        Option 1
-      </button>
-      <button class="dropdown__item dropdown__item_icon" role="option" type="button">
-        <UiIcon icon="tv" class="dropdown__icon" />
-        Option 2
-      </button>
-    </div>
-  </div>
+		<transition name="dropdown">
+			<div class="dropdown__menu" role="listbox" v-show="isOpened">
+				<button class="dropdown__item"
+					:class="{ 'dropdown__item_icon': existIcon, 'selected': currentOption?.value === option?.value }"
+					role="option" type="button" v-for=" option in options " :key="option.value"
+					@click="selectOption(option.value)">
+					<UiIcon v-if="option?.icon" :icon="option.icon" class="dropdown__icon" />
+					{{ option.text }}
+				</button>
+			</div>
+		</transition>
+	</div>
 </template>
 
 <script>
 import UiIcon from './UiIcon.vue';
 
 export default {
-  name: 'UiDropdown',
+	name: 'UiDropdown',
 
-  components: { UiIcon },
+	components: { UiIcon },
+
+	mounted()
+	{
+		document.addEventListener('click', this.closeUiDropdown);
+	},
+	unmounted()
+	{
+		document.removeEventListener('click', this.closeUiDropdown);
+	},
+
+	data()
+	{
+		return {
+			isOpened: false
+		}
+	},
+
+	emits: ['update:modelValue'],
+
+	props: {
+		modelValue: {
+			type: String,
+			default: ''
+		},
+		options: {
+			type: Array,
+			required: true,
+		},
+		title: {
+			type: String,
+			required: true
+		}
+	},
+	methods: {
+		toggleVisibilityDropdownMenu()
+		{
+			this.isOpened = !this.isOpened;
+		},
+		selectOption(optionValue)
+		{
+			this.isOpened = !this.isOpened;
+			this.$emit('update:modelValue', optionValue);
+		},
+		closeUiDropdown({ target })
+		{
+			if (!this.$refs.dropDown.contains(target)) {
+				this.isOpened = false;
+			}
+		}
+	},
+	computed: {
+		currentOption()
+		{
+			const [option] = this.options.filter(option => option.value === this.modelValue);
+			return option;
+		},
+		existIcon()
+		{
+			return this.options.some(option => Boolean(option.icon));
+		}
+	}
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .dropdown {
-  position: relative;
-  display: inline-block;
+	position: relative;
+	display: inline-block;
 }
 
 .dropdown__toggle {
-  display: inline-block;
-  background-color: var(--white);
-  background-position: calc(100% - 10px) calc(100% - 10px);
-  border: 2px solid var(--blue-light);
-  border-radius: 8px;
-  position: relative;
-  padding: 10px 56px 10px 24px;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 28px;
-  color: initial;
-  text-align: center;
-  transition-duration: 0.2s;
-  transition-property: background-color, fill, color;
-  outline: none;
-  box-shadow: none;
-  cursor: pointer;
-  text-decoration: none;
+	display: inline-block;
+	background-color: var(--white);
+	background-position: calc(100% - 10px) calc(100% - 10px);
+	border: 2px solid var(--blue-light);
+	border-radius: 8px;
+	position: relative;
+	padding: 10px 56px 10px 24px;
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 28px;
+	color: initial;
+	text-align: center;
+	transition-duration: 0.2s;
+	transition-property: background-color, fill, color;
+	outline: none;
+	box-shadow: none;
+	cursor: pointer;
+	text-decoration: none;
+
+	&:after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		right: 16px;
+		translate: 0 -50%;
+		background: url('@/assets/icons/icon-chevron-down.svg') no-repeat;
+		background-size: cover;
+		display: block;
+		width: 24px;
+		height: 24px;
+		transition: 0.2s transform;
+	}
 }
 
-.dropdown__toggle:after {
-  content: '';
-  position: absolute;
-  top: 15px;
-  right: 16px;
-  transform: none;
-  background: url('@/assets/icons/icon-chevron-down.svg') no-repeat;
-  background-size: cover;
-  display: block;
-  width: 24px;
-  height: 24px;
-  transition: 0.2s transform;
-}
 
 .dropdown__toggle_icon {
-  padding-left: 56px;
+	padding-left: 56px;
 }
 
-.dropdown_opened .dropdown__toggle {
-  border-color: var(--blue);
-  border-bottom-color: transparent;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
+.dropdown_opened {
+	.dropdown__toggle {
+		border-color: var(--blue);
+		border-bottom-color: transparent;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
 
-.dropdown_opened .dropdown__toggle:after {
-  transform: rotate(180deg);
+		&:after {
+			transform: rotate(180deg);
+		}
+	}
 }
 
 .dropdown__menu {
-  background-clip: padding-box;
-  border-radius: 0 0 8px 8px;
-  border: 2px solid var(--blue);
-  border-top: none;
-  bottom: auto;
-  display: flex;
-  flex-direction: column;
-  left: 0;
-  margin: 0;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  right: auto;
-  top: -1px;
-  transform: translate3d(0px, 52px, 0px);
-  width: 100%;
-  will-change: transform;
-  z-index: 95;
+	position: absolute;
+	top: calc(100% - 1px);
+	left: 0;
+	z-index: 95;
+	min-width: 100%;
+	border-radius: 0 0 8px 8px;
+	border: 2px solid var(--blue);
+	border-top: none;
+	bottom: auto;
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	padding: 0;
+	background-color: #fff;
+	overflow: hidden;
+	transform-origin: top;
+
+}
+
+.dropdown-enter-active,
+.dropdown-leave-active {
+	opacity: 1;
+	visibility: visible;
+	transform: scaleY(1);
+	transition: all 0.3s cubic-bezier(.86, 0, .07, 1);
+}
+
+.dropdown-enter-from,
+.dropdown-leave-to {
+	opacity: 0;
+	visibility: hidden;
+	transform: scaleY(0);
 }
 
 .dropdown__item {
-  padding: 8px 16px;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 28px;
-  background-color: var(--white);
-  box-shadow: none;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-  transition-duration: 0.2s;
-  transition-property: background-color, border-color, color;
-  outline: none;
-  text-decoration: none;
-}
+	padding: 8px 16px 8px 24px;
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 28px;
+	background-color: var(--white);
+	box-shadow: none;
+	border: none;
+	cursor: pointer;
+	text-align: left;
+	transition-duration: 0.2s;
+	transition-property: background-color, border-color, color;
+	outline: none;
+	text-decoration: none;
 
-.dropdown__item:hover,
-.dropdown__item:focus {
-  background-color: var(--grey-light);
+	&:hover,
+	&:focus {
+		background-color: var(--grey-light);
+	}
+
+	&.selected {
+		background-color: var(--grey-2);
+	}
 }
 
 .dropdown__item_icon {
-  padding-left: 56px;
-  position: relative;
+	padding-left: 56px;
+	position: relative;
 }
 
-.dropdown__item_icon .dropdown__icon,
-.dropdown__toggle_icon .dropdown__icon {
-  position: absolute;
-  top: 50%;
-  left: 16px;
-  transform: translate(0, -50%);
+.dropdown__item_icon,
+.dropdown__toggle_icon {
+	.dropdown__icon {
+		position: absolute;
+		top: 50%;
+		left: 16px;
+		transform: translate(0, -50%);
+	}
 }
 </style>
