@@ -1,6 +1,7 @@
 <template>
-	<div class="image-uploader" @click="handleClick">
-		<label class="image-uploader__preview" :class="previewLoadingClass" :style="previewLoadingStyle">
+	<div class="image-uploader">
+		<label class="image-uploader__preview" :class="previewLoadingClass" :style="previewLoadingStyle"
+			@click="handleClick">
 			<span class="image-uploader__text">{{ previewText }}</span>
 			<input type="file" accept="image/*" class="image-uploader__input" v-bind="$attrs" ref="imageUploaderInput"
 				@change="change" />
