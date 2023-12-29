@@ -11,7 +11,7 @@
 		<div class="agenda-item-form__row">
 			<div class="agenda-item-form__col">
 				<UiFormGroup label="Начало">
-					<UiInput type="time" placeholder="00:00" name="startsAt" v-model="localAgendaItem.startsAt" />
+					<UiInput type="time" placeholder="00:00" name="startsAt" v-model="time" />
 				</UiFormGroup>
 			</div>
 
@@ -130,39 +130,41 @@ export default {
 			} else {
 				return 'Нестандартный текст (необязательно)';
 			}
-		}
+		},
+		time: {
+			get()
+			{
+				return this.localAgendaItem.startsAt;
+			},
+
+			set(value)
+			{
+				const oldStartsAt = this.convertedDate(this.localAgendaItem.startsAt);
+				const oldEndsAt = this.convertedDate(this.localAgendaItem.endsAt);
+
+				const duration = oldEndsAt - oldStartsAt;
+
+				const newStartsAt = this.convertedDate(value);
+				const newEndsAt = new Date(newStartsAt.getTime() + duration);
+
+				this.localAgendaItem.startsAt = value;
+				this.localAgendaItem.endsAt = newEndsAt.toTimeString().slice(0, 5);
+			},
+		},
 	},
 
 	methods: {
-		getTimeInMinutes(time)
+		convertedDate(time)
 		{
-			const [hours, minutes] = time.split(':').map(el => Number(el));
-			return hours * 60 + minutes;
+			const [hours, minutes] = time.split(':');
+			const date = new Date();
+			date.setHours(hours);
+			date.setMinutes(minutes);
+			return date;
 		},
-		getFormatedTime(time)
-		{
-			const hours = Math.floor(time / 60) % 24;
-			const minutes = time % 60;
-
-			return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-		},
-		calculateNewEndsAt(newStartsAtValue, oldStartsAtValue)
-		{
-			const oldStartsAt = this.getTimeInMinutes(oldStartsAtValue);
-			const oldEndsAt = this.getTimeInMinutes(this.localAgendaItem.endsAt);
-			const newStartsAt = this.getTimeInMinutes(newStartsAtValue);
-			const newEndsAt = newStartsAt + oldEndsAt - oldStartsAt;
-
-			return this.getFormatedTime(newEndsAt);
-		}
 	},
 
 	watch: {
-		'localAgendaItem.startsAt'(newValue, oldValue)
-		{
-			if (!oldValue) return;
-			this.localAgendaItem.endsAt = this.calculateNewEndsAt(newValue, oldValue);
-		},
 		localAgendaItem: {
 			deep: true,
 			handler()
