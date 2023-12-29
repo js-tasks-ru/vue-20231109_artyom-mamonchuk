@@ -5,7 +5,7 @@
 		</button>
 
 		<UiFormGroup label="Тип">
-			<UiDropdown title="Тип" v-model="localAgendaItem.type" :options="$options.agendaItemTypeOptions" name="type" />
+			<UiDropdown title="Тип" name="type" v-model="localAgendaItem.type" :options="$options.agendaItemTypeOptions" />
 		</UiFormGroup>
 
 		<div class="agenda-item-form__row">
@@ -26,15 +26,15 @@
 			<UiInput name="title" v-model="localAgendaItem.title" />
 		</UiFormGroup>
 
-		<UiFormGroup label="Докладчик" v-show="isFieldVisible.speaker">
+		<UiFormGroup label="Докладчик" v-if="isFieldVisible.speaker">
 			<UiInput name="speaker" v-model="localAgendaItem.speaker" />
 		</UiFormGroup>
 
-		<UiFormGroup label="Описание" v-show="isFieldVisible.description">
+		<UiFormGroup label="Описание" v-if="isFieldVisible.description">
 			<UiInput multiline name="description" v-model="localAgendaItem.description" />
 		</UiFormGroup>
 
-		<UiFormGroup label="Язык" v-show="isFieldVisible.language">
+		<UiFormGroup label="Язык" v-if="isFieldVisible.language">
 			<UiDropdown title="Язык" :options="$options.talkLanguageOptions" name="language"
 				v-model="localAgendaItem.language" />
 		</UiFormGroup>
@@ -128,16 +128,41 @@ export default {
 			if (fieldType === 'talk') {
 				return 'Тема'
 			} else {
-				return 'Нестандартный текст(необязательно)';
+				return 'Нестандартный текст (необязательно)';
 			}
 		}
 	},
 
 	methods: {
+		getTimeInMinutes(time)
+		{
+			const [hours, minutes] = time.split(':').map(el => Number(el));
+			return hours * 60 + minutes;
+		},
+		getFormatedTime(time)
+		{
+			const hours = Math.floor(time / 60) % 24;
+			const minutes = time % 60;
 
+			return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+		},
+		calculateNewEndsAt(newStartsAtValue, oldStartsAtValue)
+		{
+			const oldStartsAt = this.getTimeInMinutes(oldStartsAtValue);
+			const oldEndsAt = this.getTimeInMinutes(this.localAgendaItem.endsAt);
+			const newStartsAt = this.getTimeInMinutes(newStartsAtValue);
+			const newEndsAt = newStartsAt + oldEndsAt - oldStartsAt;
+
+			return this.getFormatedTime(newEndsAt);
+		}
 	},
 
 	watch: {
+		'localAgendaItem.startsAt'(newValue, oldValue)
+		{
+			if (!oldValue) return;
+			this.localAgendaItem.endsAt = this.calculateNewEndsAt(newValue, oldValue);
+		},
 		localAgendaItem: {
 			deep: true,
 			handler()

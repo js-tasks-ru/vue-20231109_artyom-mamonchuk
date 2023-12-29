@@ -1,7 +1,7 @@
 <template>
 	<div class="dropdown" :class="{ 'dropdown_opened': isOpened }" ref="dropDown">
 		<button type="button" class="dropdown__toggle" :class="{ 'dropdown__toggle_icon': existIcon }"
-			@click="toggleVisibilityDropdownMenu">
+			@click.stop="toggleVisibilityDropdownMenu">
 			<UiIcon v-if="currentOption?.icon" :icon="currentOption.icon" class="dropdown__icon" />
 			<span>{{ currentOption?.text || title }}</span>
 		</button>
@@ -11,12 +11,15 @@
 				<button class="dropdown__item"
 					:class="{ 'dropdown__item_icon': existIcon, 'selected': currentOption?.value === option?.value }"
 					role="option" type="button" v-for=" option in options " :key="option.value"
-					@click="selectOption(option.value)">
+					@click.stop="selectOption(option.value)">
 					<UiIcon v-if="option?.icon" :icon="option.icon" class="dropdown__icon" />
 					{{ option.text }}
 				</button>
 			</div>
 		</transition>
+		<select v-model="selectModel" :name="name" class="hel">
+			<option v-for="option in options" :key="option.value" :value="option.value">{{ option.text }}</option>
+		</select>
 	</div>
 </template>
 
@@ -58,6 +61,9 @@ export default {
 		title: {
 			type: String,
 			required: true
+		},
+		name: {
+			type: String,
 		}
 	},
 	methods: {
@@ -86,12 +92,32 @@ export default {
 		existIcon()
 		{
 			return this.options.some(option => Boolean(option.icon));
+		},
+		selectModel: {
+			get()
+			{
+				return this.modelValue;
+			},
+			set(value)
+			{
+				this.$emit('update:modelValue', value);
+			}
 		}
 	}
 };
 </script>
 
 <style lang="scss" scoped>
+.hel {
+	width: 0;
+	height: 0;
+	line-height: 0;
+	font-size: 0;
+	visibility: hidden;
+	opacity: 0;
+	text-indent: -9999px;
+}
+
 .dropdown {
 	position: relative;
 	display: inline-block;
