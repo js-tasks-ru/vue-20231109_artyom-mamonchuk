@@ -20,13 +20,10 @@
 				</UiFormGroup>
 			</div>
 		</div>
-
-		<template v-for="[k_ey, v_alue] in Object.entries(agendaItemFormSchema)" :key="k_ey">
-			<UiFormGroup :label="v_alue.label">
-				<component :is="v_alue.component" v-model="localAgendaItem[v_alue.props.name]" v-bind="v_alue.props">
-				</component>
-			</UiFormGroup>
-		</template>
+		<UiFormGroup v-for="[k_ey, v_alue] in Object.entries(agendaItemFormSchema)" :key="k_ey" :label="v_alue.label">
+			<component :is="v_alue.component" v-model="localAgendaItem[v_alue.props.name]" v-bind="v_alue.props">
+			</component>
+		</UiFormGroup>
 	</fieldset>
 </template>
 
