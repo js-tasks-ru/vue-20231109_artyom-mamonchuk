@@ -1,9 +1,7 @@
 <template>
-	<div>
-		<slot name="pending" v-if="pending"></slot>
-		<slot name="fulfilled" :result="fulfilled" v-else-if="fulfilled"></slot>
-		<slot name="rejected" :error="rejected" v-else></slot>
-	</div>
+	<slot name="pending" v-if="state.pending"></slot>
+	<slot name="fulfilled" :result="state.fulfilled" v-else-if="Boolean(state.fulfilled)"></slot>
+	<slot name="rejected" :error="state.rejected" v-else></slot>
 </template>
 
 <script>
@@ -13,9 +11,11 @@ export default {
 	data()
 	{
 		return {
-			pending: true,
-			fulfilled: null,
-			rejected: null,
+			state: {
+				pending: true,
+				fulfilled: undefined,
+				rejected: undefined
+			}
 		}
 	},
 
@@ -31,16 +31,16 @@ export default {
 			immediate: true,
 			async handler(newValue)
 			{
-				this.pending = true;
-				this.fulfilled = null;
-				this.rejected = null;
+				this.state.pending = true;
+				this.state.fulfilled = undefined;
+				this.state.rejected = undefined;
 
 				try {
-					this.fulfilled = await newValue;
+					this.state.fulfilled = await newValue;
 				} catch (error) {
-					this.rejected = error;
+					this.state.rejected = error;
 				} finally {
-					this.pending = false;
+					this.state.pending = false
 				}
 			}
 		}
