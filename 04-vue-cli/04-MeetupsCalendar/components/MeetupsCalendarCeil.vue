@@ -44,7 +44,7 @@ export default {
 		{
 			return {
 				'calendar-view__cell_inactive': !this.day?.isCurrentMonth,
-				'calendar-view__cell_today': this.isToday,
+				'calendar-view__cell_today': this.day?.isCurrentMonth && this.isToday,
 			};
 		},
 		label()
