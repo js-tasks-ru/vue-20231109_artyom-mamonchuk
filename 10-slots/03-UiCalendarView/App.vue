@@ -3,7 +3,6 @@
     <div class="container" style="flex: 1 0; margin: 0 2rem">
       <MeetupsCalendar :meetups="meetups" />
     </div>
-
     <div class="container" style="flex: 1 0; margin: 0 2rem">
       <InternationalHolidaysCalendar />
     </div>
