@@ -2,25 +2,11 @@
 export default {
 	name: 'UiTabs',
 
-	data()
-	{
-		return {
-			tabs: this.$slots.default?.().filter(tab => tab?.type.name === 'UiTab'),
-		}
-	},
-
 	props: {
 		active: String,
 	},
 
 	emits: ['update:active'],
-
-	computed: {
-		tabContent()
-		{
-			return this.tabs.filter(tab => tab.props.name === this.active);
-		}
-	},
 
 	methods: {
 		setActive(tabId)
@@ -31,14 +17,17 @@ export default {
 
 	render()
 	{
+		const tabs = this.$slots.default?.().filter(tab => tab?.type.name === 'UiTab');
+		const tabContent = tabs.filter(tab => tab.props.name === this.active);
+
 		return (
 			<div div class="tabs">
 				<div class="tabs__nav" role="tablist">
 					{
-						this.tabs.map(tab =>
+
+						tabs.map(tab =>
 						(
-							<a
-								role="tab"
+							<a role="tab"
 								class={['tabs__tab', { 'tabs__tab_active': this.active === tab.props.name }]}
 								onClick={() => this.setActive(tab.props.name)}
 							>{tab.props.title}</a>
@@ -47,7 +36,7 @@ export default {
 					}
 				</div>
 				<div class="tabs__content">
-					{this.tabContent}
+					{tabContent}
 				</div>
 			</div>
 		);
