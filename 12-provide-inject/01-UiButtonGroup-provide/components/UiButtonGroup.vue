@@ -21,7 +21,7 @@ export default {
 	provide()
 	{
 		return {
-			model: computed(() => this.modelValue),
+			getParentModel: computed(() => this.modelValue),
 			setParentModel: (value) => this.$emit('update:modelValue', value)
 		}
 	},

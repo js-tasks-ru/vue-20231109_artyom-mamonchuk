@@ -1,16 +1,16 @@
 <template>
-  <slot />
+	<slot />
 </template>
 
 <script>
 // Этот компонент используется только для передачи данных и содержимого в UiTabs
 
 export default {
-  name: 'UiTab',
+	name: 'UiTab',
 
-  props: {
-    name: String,
-    title: String,
-  },
+	props: {
+		name: String,
+		title: String,
+	},
 };
 </script>

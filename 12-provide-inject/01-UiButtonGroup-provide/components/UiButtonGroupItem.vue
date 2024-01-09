@@ -16,12 +16,12 @@ export default {
 		},
 	},
 
-	inject: ['model', 'setParentModel'],
+	inject: ['getParentModel', 'setParentModel'],
 
 	computed: {
 		isActive()
 		{
-			return this.value === this.model;
+			return this.value === this.getParentModel;
 		}
 	},
 
