@@ -16,8 +16,8 @@ export default {
 		},
 
 		components: {
-			type: [Object, Array],
-			default: () => [],
+			type: Object,
+			default: () => ({}),
 		},
 	},
 
