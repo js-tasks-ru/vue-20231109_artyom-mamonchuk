@@ -13,6 +13,9 @@ export default {
 			type: [String, Object],
 			default: 'button'
 		},
+		type: {
+			type: String,
+		},
 		block: {
 			type: Boolean,
 			default: false
@@ -33,7 +36,7 @@ export default {
 		},
 		buttonType()
 		{
-			return (this.tag === 'button' && !this.$attrs['type']) ? 'button' : null
+			return (this.tag !== 'button') ? null : this.type || 'button'
 		}
 	}
 };
